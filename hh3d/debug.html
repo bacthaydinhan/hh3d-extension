@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HH3D Extension Debug</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            line-height: 1.6;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            margin: 5px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .log {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 HH3D Extension Debug Page</h1>
+    
+    <div class="test-section">
+        <h3>📋 Extension Status</h3>
+        <button class="btn" onclick="checkExtension()">Check Extension</button>
+        <div id="extension-status" class="log"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>⚡ Test Daily Buttons</h3>
+        <button id="te-le-button" class="btn">🙏 Tế Lễ</button>
+        <button id="checkInButton" class="btn">✅ Điểm Danh</button>
+        <div id="daily-log" class="log"></div>
+    </div>
+
+    <div class="test-section">
+        <h3>📝 Console Logs</h3>
+        <button class="btn" onclick="clearLogs()">Clear Logs</button>
+        <div id="console-log" class="log"></div>
+    </div>
+
+    <script>
+        // Capture console logs
+        const originalLog = console.log;
+        const originalError = console.error;
+        const originalWarn = console.warn;
+        
+        function addToLog(type, message) {
+            const logDiv = document.getElementById('console-log');
+            const timestamp = new Date().toLocaleTimeString();
+            logDiv.innerHTML += `<div style="color: ${type === 'error' ? 'red' : type === 'warn' ? 'orange' : 'black'}">[${timestamp}] ${type.toUpperCase()}: ${message}</div>`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+        
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addToLog('log', args.join(' '));
+        };
+        
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addToLog('error', args.join(' '));
+        };
+        
+        console.warn = function(...args) {
+            originalWarn.apply(console, args);
+            addToLog('warn', args.join(' '));
+        };
+
+        function checkExtension() {
+            const statusDiv = document.getElementById('extension-status');
+            statusDiv.innerHTML = 'Checking extension...';
+            
+            try {
+                if (typeof chrome !== 'undefined' && chrome.runtime) {
+                    statusDiv.innerHTML = '✅ Chrome extension API available<br>';
+                    
+                    // Try to get extension info
+                    try {
+                        const manifest = chrome.runtime.getManifest();
+                        statusDiv.innerHTML += `✅ Extension loaded: ${manifest.name} v${manifest.version}<br>`;
+                    } catch (e) {
+                        statusDiv.innerHTML += `❌ Cannot access manifest: ${e.message}<br>`;
+                    }
+                } else {
+                    statusDiv.innerHTML = '❌ Chrome extension API not available';
+                }
+            } catch (e) {
+                statusDiv.innerHTML = `❌ Error: ${e.message}`;
+            }
+        }
+
+        function clearLogs() {
+            document.getElementById('console-log').innerHTML = '';
+        }
+
+        // Test button interactions
+        document.getElementById('te-le-button').addEventListener('click', function() {
+            const logDiv = document.getElementById('daily-log');
+            logDiv.innerHTML += `<div>[${new Date().toLocaleTimeString()}] Tế Lễ button clicked</div>`;
+            console.log('[HH3D Debug] Tế Lễ button clicked - extension should detect this');
+        });
+
+        document.getElementById('checkInButton').addEventListener('click', function() {
+            const logDiv = document.getElementById('daily-log');
+            logDiv.innerHTML += `<div>[${new Date().toLocaleTimeString()}] Điểm Danh button clicked</div>`;
+            console.log('[HH3D Debug] Điểm Danh button clicked - extension should detect this');
+        });
+
+        // Log page load
+        console.log('[HH3D Debug] Debug page loaded');
+        
+        // Auto-check extension on load
+        window.addEventListener('load', () => {
+            setTimeout(checkExtension, 500);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+{
+  "manifest_version": 3,
+  "name": "HH3D Helper - All-in-One Extension",
+  "version": "2.0.0",
+  "description": "Extension tổng hợp hỗ trợ Tế Lễ, Điểm Danh và Vấn Đáp trên HoatHinh3D",
+  
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+
+  "background": {
+    "service_worker": "background.js"
+  },
+
+  "permissions": [
+    "tabs", 
+    "scripting", 
+    "webNavigation", 
+    "storage",
+    "activeTab"
+  ],
+  
+  "host_permissions": ["https://hoathinh3d.mx/*"],
+
+  "content_scripts": [
+    {
+      "matches": [
+        "https://hoathinh3d.mx/danh-sach-thanh-vien-tong-mon*",
+        "https://hoathinh3d.mx/diem-danh*"
+      ],
+      "js": ["content-tele-diemdanh.js"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://hoathinh3d.mx/van-dap-tong-mon*"
+      ],
+      "js": ["content-vandap.js"],
+      "run_at": "document_idle"
+    }
+  ],
+
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  }
+}

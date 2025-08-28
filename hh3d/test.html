@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HH3D Helper - Test Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .section {
+            background: white;
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .section h2 {
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .test-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .test-btn:hover {
+            background: #45a049;
+        }
+        .test-btn.te-le {
+            background: #2196F3;
+        }
+        .test-btn.diem-danh {
+            background: #FF9800;
+        }
+        .status {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            background: #e9ecef;
+            display: none;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎯 HH3D Helper - Extension Test Page</h1>
+    
+    <div class="section">
+        <h2>📋 Test Checklist</h2>
+        <p>Use this page to verify that HH3D Helper extension is working correctly:</p>
+        <ul>
+            <li>✅ Extension icon appears in toolbar</li>
+            <li>✅ Popup opens when clicking extension icon</li>
+            <li>✅ All 3 sections visible in popup</li>
+            <li>✅ Toggle switches work (Auto/Pin)</li>
+            <li>✅ Buttons respond to clicks</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>⚡ Daily Activities Simulation</h2>
+        <p>These buttons simulate the Tế Lễ and Điểm Danh buttons found on HoatHinh3D:</p>
+        
+        <button id="te-le-button" class="test-btn te-le">🙏 Tế Lễ</button>
+        <button id="checkInButton" class="test-btn diem-danh">✅ Điểm Danh</button>
+        
+        <div id="daily-status" class="status"></div>
+    </div>
+
+    <div class="section">
+        <h2>🧠 VanDap Question Simulation</h2>
+        <p>This simulates a typical Vấn Đáp question page:</p>
+        
+        <div class="question-container">
+            <p><strong>Câu hỏi:</strong> Ai là người sáng lập ra HoatHinh3D?</p>
+            <div class="answers">
+                <button class="test-btn answer-btn" data-answer="A">A. Admin</button>
+                <button class="test-btn answer-btn" data-answer="B">B. Moderator</button>
+                <button class="test-btn answer-btn" data-answer="C">C. Founder</button>
+                <button class="test-btn answer-btn" data-answer="D">D. Developer</button>
+            </div>
+        </div>
+        
+        <div id="vandap-status" class="status"></div>
+    </div>
+
+    <div class="section">
+        <h2>🔧 Extension Testing Guide</h2>
+        <ol>
+            <li><strong>Load Extension:</strong>
+                <ul>
+                    <li>Go to <code>chrome://extensions/</code></li>
+                    <li>Enable "Developer mode"</li>
+                    <li>Click "Load unpacked" and select <code>hh3d</code> folder</li>
+                </ul>
+            </li>
+            <li><strong>Test Daily Activities:</strong>
+                <ul>
+                    <li>Click extension icon to open popup</li>
+                    <li>Click "TẾ LỄ" button → should navigate to Tế Lễ page</li>
+                    <li>Click "ĐIỂM DANH" button → should navigate to Điểm Danh page</li>
+                </ul>
+            </li>
+            <li><strong>Test VanDap:</strong>
+                <ul>
+                    <li>Go to a VanDap page URL</li>
+                    <li>Popup should auto-open</li>
+                    <li>VanDap section should be visible</li>
+                    <li>Toggle Auto/Pin switches</li>
+                </ul>
+            </li>
+            <li><strong>Test Content Scripts:</strong>
+                <ul>
+                    <li>Open this test page</li>
+                    <li>Check browser console for extension logs</li>
+                    <li>Verify no errors in extension</li>
+                </ul>
+            </li>
+        </ol>
+    </div>
+
+    <div class="section">
+        <h2>📊 Test Results</h2>
+        <div id="test-results">
+            <p>Open browser console (F12) to see extension logs and verify functionality.</p>
+        </div>
+    </div>
+
+    <script>
+        // Simulate button interactions for testing
+        document.getElementById('te-le-button').addEventListener('click', function() {
+            showStatus('daily-status', '🙏 Tế Lễ button clicked! Check if extension responds.', 'success');
+        });
+
+        document.getElementById('checkInButton').addEventListener('click', function() {
+            showStatus('daily-status', '✅ Điểm Danh button clicked! Check if extension responds.', 'success');
+        });
+
+        document.querySelectorAll('.answer-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const answer = this.getAttribute('data-answer');
+                showStatus('vandap-status', `📝 Answer ${answer} clicked! Extension should detect this.`, 'success');
+            });
+        });
+
+        function showStatus(elementId, message, type) {
+            const statusEl = document.getElementById(elementId);
+            statusEl.textContent = message;
+            statusEl.className = `status ${type}`;
+            statusEl.style.display = 'block';
+            
+            setTimeout(() => {
+                statusEl.style.display = 'none';
+            }, 3000);
+        }
+
+        // Log page load for extension to detect
+        console.log('[HH3D Test] Test page loaded, extension should detect this environment');
+    </script>
+</body>
+</html>

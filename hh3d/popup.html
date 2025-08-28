@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HH3D Helper</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🎯 HH3D HELPER</h1>
+            <div class="version">v2.0.0</div>
+        </div>
+
+        <!-- Hoạt động hàng ngày -->
+        <div class="section daily-section">
+            <div class="section-title">⚡ HOẠT ĐỘNG HÀNG NGÀY</div>
+            <div class="button-row">
+                <button id="te-le-button" class="action-btn primary">
+                    <span class="btn-icon">🙏</span>
+                    <span class="btn-text">TẾ LỄ</span>
+                </button>
+                <button id="diem-danh-button" class="action-btn primary">
+                    <span class="btn-icon">✅</span>
+                    <span class="btn-text">ĐIỂM DANH</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Vấn đáp thông minh -->
+        <div class="section vandap-section">
+            <div class="section-title">🧠 VẤN ĐÁP THÔNG MINH</div>
+            
+            <!-- Controls -->
+            <div class="vandap-controls">
+                <div class="control-row">
+                    <label class="toggle-label">
+                        Auto:
+                        <input type="checkbox" id="auto-toggle" class="toggle-input">
+                        <span class="toggle-switch"></span>
+                    </label>
+                    <label class="toggle-label">
+                        Pin:
+                        <input type="checkbox" id="pin-toggle" class="toggle-input">
+                        <span class="toggle-switch"></span>
+                    </label>
+                    <button id="stop-button" class="action-btn secondary small">STOP</button>
+                </div>
+            </div>
+
+            <!-- Status -->
+            <div class="vandap-status">
+                <div class="status-row">
+                    <span class="status-label">Câu hỏi:</span>
+                    <span id="question-counter" class="status-value">0/5</span>
+                </div>
+                <div class="status-row">
+                    <span class="status-label">Trạng thái:</span>
+                    <span id="status-text" class="status-value">Chờ khởi động...</span>
+                </div>
+            </div>
+
+            <!-- Current Question Display -->
+            <div id="current-question" class="question-display">
+                <div class="question-text">Chưa có câu hỏi</div>
+                <div class="answer-text">Chưa có đáp án</div>
+            </div>
+        </div>
+
+        <!-- Kết quả -->
+        <div class="section result-section">
+            <div class="section-title">📊 KẾT QUẢ</div>
+            <div id="result-message" class="result-message">
+                Sẵn sàng hoạt động
+            </div>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
